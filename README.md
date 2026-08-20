@@ -17,6 +17,14 @@ Any Linux distribution (Ubuntu, Arch, Fedora, etc.) can use this theme, as long 
 
 ## Installation
 
+### Quick Installation (One-Command)
+Clone the repository and run the included install script:
+```bash
+git clone https://github.com/YOUR_USERNAME/orbital-clock-sddm.git
+cd orbital-clock-sddm
+sudo ./install.sh
+```
+
 ### Manual Installation
 1. Clone this repository to your local machine:
    ```bash
