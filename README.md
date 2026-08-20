@@ -4,16 +4,16 @@ A sleek, beautiful, clock-focused SDDM login theme extracted from the [Ryoku-Arc
 
 This theme features a stunning live orbital clock and a clean, minimalist design for your display manager.
 
-> **Note:** This theme was originally written in Qt6 for Ryoku's lockscreen. This repository contains the patched version that is fully compatible with standard Qt5 SDDM installations (which most distributions use).
+> **Note:** This theme is written purely in **Qt6**. Ensure your distribution uses the Qt6 version of SDDM before installing (most modern distributions like Arch and its derivatives do).
 
 ## Preview
-![Preview](screenshot.png)*
+![Preview](screenshot.png)
 
 ## Requirements
-Any Linux distribution (Ubuntu, Arch, Fedora, etc.) can use this theme, as long as you use **SDDM** as your login manager. You will need the following packages installed on your system (names may vary slightly by distribution):
+Any Linux distribution can use this theme, as long as it uses the modern **Qt6** build of SDDM. You will need the following packages installed on your system (names may vary slightly by distribution):
 - `sddm`
-- `qt5-declarative` (or `qtdeclarative5-dev` on Debian/Ubuntu)
-- `qt5-graphicaleffects` (or `qml-module-qtgraphicaleffects` on Debian/Ubuntu)
+- `qt6-declarative`
+- `qt6-5compat` (provides backwards compatibility for GraphicalEffects)
 
 ## Installation
 
@@ -46,7 +46,7 @@ sudo ./install.sh
 ## Testing the Theme
 You can preview the theme without logging out by running:
 ```bash
-sddm-greeter --test-mode --theme /usr/share/sddm/themes/orbital
+sddm-greeter-qt6 --test-mode (or sddm-greeter if your distro links it to Qt6) --theme /usr/share/sddm/themes/orbital
 ```
 
 ## Credits
