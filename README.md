@@ -40,9 +40,6 @@ sudo ./install.sh
    Current=orbital
    ```
 
-### Arch Linux (AUR)
-*(You can add AUR instructions here if you decide to package it for the AUR later!)*
-
 ## Testing the Theme
 You can preview the theme without logging out by running:
 ```bash
