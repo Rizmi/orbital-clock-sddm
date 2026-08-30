@@ -125,5 +125,5 @@ sudo rm -f /etc/sddm.conf.d/10-theme.conf
 
 ## Credits & License
 
-- Orbital design + `qylock` by [Darkkal44/qylock](https://github.com/Darkkal44/qylock), licensed under `GPL-3.0`.
+- Orbital design + `qylock` by [Darkkal44/qylock](https://github.com/Darkkal44/qylock), licensed under `GPL-3.0` — see [`LICENSE`](LICENSE).
 - Frame blob and SDDM integration adapted from [neur0map/ryoku-arch](https://github.com/neur0map/ryoku-arch).
