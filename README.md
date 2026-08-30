@@ -1,50 +1,129 @@
 # Orbital SDDM Theme
 
-A sleek, beautiful, clock-focused SDDM login theme extracted from the [Ryoku-Arch](https://github.com/neur0map/ryoku-arch) operating system.
+A sleek, clock-focused **SDDM login screen theme** extracted from [Ryoku-Arch](https://github.com/neur0map/ryoku-arch) (`clockwork/orbital` QML) — featuring live dual orbital rings and windup unlock animation. Written in **Qt6**.
 
-This theme features a stunning live orbital clock and a clean, minimalist design for your display manager.
+For the in-session **lockscreen** (`Super+L` and idle timeout), see [`orbital-clock-lockscreen`](../orbital-clock-lockscreen).
 
-> **Note:** This theme is written purely in **Qt6**. Ensure your distribution uses the Qt6 version of SDDM before installing (most modern distributions like Arch and its derivatives do).
+![Preview](preview.gif)
 
-## Preview
-![Preview](screenshot.png)
+> **Tested on:** `Omarchy 4.0.1` / `SDDM 0.21.0` (Qt6) / `Qt 6.11.2` / `Arch Linux`
 
-## Requirements
-Any Linux distribution can use this theme, as long as it uses the modern **Qt6** build of SDDM. You will need the following packages installed on your system (names may vary slightly by distribution):
+---
+
+## Compatibility & Requirements
+
+| Environment | Supported? | Setup / Notes |
+| :--- | :---: | :--- |
+| **Arch Linux / Omarchy / EndeavourOS** | ✅ | Native SDDM Qt6 package |
+| **Fedora 40+ / openSUSE Tumbleweed** | ✅ | Fully supported on Qt6 build of SDDM |
+| **Debian 13+ / Ubuntu 24.10+** | ✅ | Supported when using `sddm` with Qt6 greeter |
+| **Legacy SDDM (Qt5 builds)** | ❌ | Requires modern Qt6 build of SDDM |
+| **GDM / LightDM / Ly** | ❌ | SDDM only |
+
+### Package Requirements (Arch / Omarchy)
 - `sddm`
 - `qt6-declarative`
-- `qt6-5compat` (provides backwards compatibility for GraphicalEffects)
+- `qt6-5compat`
+- `qt6-svg`
 
-## Installation
+Check dependencies:
+```bash
+pacman -Q sddm qt6-declarative qt6-5compat qt6-svg 2>&1
+```
 
-### Quick Installation (One-Command)
-Clone the repository and run the included install script:
+---
+
+## Quick Install
+
+### Automated Install
 ```bash
 git clone https://github.com/Rizmi/orbital-clock-sddm.git
 cd orbital-clock-sddm
-sudo ./install.sh
+chmod +x install.sh
+./install.sh --apply
 ```
+
+What `install.sh` does:
+1. Verifies that `sddm`, `qt6-declarative`, `qt6-5compat`, and `qt6-svg` are installed.
+2. Copies `orbital` to `/usr/share/sddm/themes/orbital` with permissions `755`.
+3. Sets `Current=orbital` under `[Theme]` in `/etc/sddm.conf.d/10-theme.conf` (when passed `--apply` or confirmed interactively).
 
 ### Manual Installation
-1. Clone this repository to your local machine:
-   ```bash
-   git clone https://github.com/Rizmi/orbital-clock-sddm.git
-   ```
-2. Copy the `orbital` folder into your system's SDDM themes directory:
-   ```bash
-   sudo cp -r orbital-clock-sddm/orbital /usr/share/sddm/themes/
-   ```
-3. Set the theme as your default in your SDDM configuration. Open your SDDM config file (usually `/etc/sddm.conf` or a file in `/etc/sddm.conf.d/`) and ensure the `[Theme]` section looks like this:
-   ```ini
-   [Theme]
-   Current=orbital
-   ```
-
-## Testing the Theme
-You can preview the theme without logging out by running:
 ```bash
-sddm-greeter-qt6 --test-mode (or sddm-greeter if your distro links it to Qt6) --theme /usr/share/sddm/themes/orbital
+# 1. Install dependencies
+sudo pacman -S sddm qt6-declarative qt6-5compat qt6-svg
+
+# 2. Copy theme
+sudo mkdir -p /usr/share/sddm/themes
+sudo cp -r orbital /usr/share/sddm/themes/
+sudo chmod -R 755 /usr/share/sddm/themes/orbital
+
+# 3. Set as default theme
+sudo mkdir -p /etc/sddm.conf.d
+sudo bash -c 'cat > /etc/sddm.conf.d/10-theme.conf <<EOF
+[Theme]
+Current=orbital
+EOF'
 ```
 
-## Credits
-All credit for the original design and QML code goes to the creators of the [Ryoku-Arch project](https://github.com/neur0map/ryoku-arch) and their [qylock](https://github.com/Darkkal44/qylock) lockscreen implementation.
+---
+
+## Testing the Theme
+
+You can test and preview the theme in a window without logging out:
+
+```bash
+# Test installed theme:
+sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/orbital
+
+# Or test directly from this repository:
+sddm-greeter-qt6 --test-mode --theme ./orbital
+```
+
+---
+
+## Autologin Note (Omarchy / Encrypted Systems)
+
+If your system uses **autologin** (e.g. Omarchy with `/etc/sddm.conf.d/autologin.conf`), SDDM is skipped at boot and you will only see this login screen when you manually **log out** (`logout` session).
+
+To test or lock your session while logged in (`Super+L` or 5-minute idle timeout), use the companion project: [`orbital-clock-lockscreen`](../orbital-clock-lockscreen).
+
+---
+
+## Configuration
+
+You can customize the theme by editing `/usr/share/sddm/themes/orbital/theme.conf`:
+
+```ini
+[General]
+type=color
+color=#000000
+fontSize=12
+themeMode=dark   # dark | light
+enableWindup=true
+```
+
+- **`themeMode`**: Set to `dark` (black background, white rings) or `light` (white background, dark rings).
+- **`enableWindup`**: Set to `true` to play the windup/blast animation on login, or `false` for instant login.
+
+---
+
+## Uninstall
+
+```bash
+chmod +x uninstall.sh
+./uninstall.sh
+```
+
+Or manually:
+```bash
+sudo rm -rf /usr/share/sddm/themes/orbital
+sudo rm -f /etc/sddm.conf.d/10-theme.conf
+```
+
+---
+
+## Credits & License
+
+- Orbital design + `qylock` by [Darkkal44/qylock](https://github.com/Darkkal44/qylock), licensed under `GPL-3.0`.
+- Frame blob and SDDM integration adapted from [neur0map/ryoku-arch](https://github.com/neur0map/ryoku-arch).
